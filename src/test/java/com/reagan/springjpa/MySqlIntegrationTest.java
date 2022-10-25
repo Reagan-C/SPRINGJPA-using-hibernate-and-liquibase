@@ -1,0 +1,29 @@
+package com.reagan.springjpa;
+
+import com.reagan.springjpa.model.Book;
+import com.reagan.springjpa.repositories.BookRepository;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.test.context.ActiveProfiles;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
+@ActiveProfiles("local")
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@ComponentScan(basePackages = "com.reagan.springjpa")
+@DataJpaTest
+public class MySqlIntegrationTest {
+
+    @Autowired
+    BookRepository bookRepository;
+
+    @Test
+    void testRepository() {
+        long countBefore = bookRepository.count();
+
+        assertThat(countBefore).isEqualTo(2);
+    }
+}
